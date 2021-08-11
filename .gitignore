@@ -74,3 +74,12 @@ typings/
 
 # FuseBox cache
 .fusebox/
+
+# Enmap
+data/
+
+# Config
+config.json
+
+# Misc
+*.bak

@@ -1,0 +1,20 @@
+{
+    "name": "crunziel-maid",
+    "version": "1.0.5",
+    "description": "v13 DJS",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "keywords": [],
+    "author": "Crunziel",
+    "license": "ISC",
+    "dependencies": {
+        "@discordjs/voice": "^0.6.0",
+        "discord.js": "^13.0.0",
+        "enmap": "^5.8.7",
+        "glob": "^7.1.7",
+        "mongoose": "^5.13.2",
+        "util": "^0.12.4"
+    }
+}
