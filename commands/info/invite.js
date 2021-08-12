@@ -56,7 +56,7 @@ module.exports = {
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
-        .setDescription(`The mentioned user need to connect to the Waiting Lounge to be invited.`)
+        .setDescription(`The user need to connect to the Waiting Lounge to be invited.`)
     
         const mentionMoved = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
@@ -123,7 +123,7 @@ module.exports = {
                     }
 
                     if(message.guild.members.cache.get(matchedMemberID).voice.channel) return message.channel.send({ embeds: [connectedVoiceChannel] }).catch(err => console.error)
-                    
+
                 } catch (err) {
                     return message.channel.send({ embeds: [userNotFound] })
                 }
