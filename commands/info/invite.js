@@ -120,9 +120,11 @@ module.exports = {
                     if(message.guild.members.cache.get(matchedMemberID).voice.channel.name.startsWith("Waiting Lounge")) {
                         await message.channel.send({ embeds: [mentionMoved] }).catch(err => console.error)
                         return message.guild.members.cache.get(matchedMemberID).voice.setChannel(message.member.voice.channel.id).catch(err => console.error)
+                    }
 
                     if(message.guild.members.cache.get(matchedMemberID).voice.channel) return message.channel.send({ embeds: [connectedVoiceChannel] }).catch(err => console.error)
-                }} catch (err) {
+                    
+                } catch (err) {
                     return message.channel.send({ embeds: [userNotFound] })
                 }
             }
