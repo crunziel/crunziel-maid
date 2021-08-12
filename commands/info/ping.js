@@ -5,8 +5,10 @@ module.exports = {
     /**
      *
      * @param {Client} client
+     * @param {Message} message
+     * @param {String[]} args
      */
-    run: async (client) => {
+    run: async (client, message) => {
         const embed = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)

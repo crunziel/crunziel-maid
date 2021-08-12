@@ -34,13 +34,13 @@ module.exports = {
         .setTimestamp()
         .setDescription(`Please use this command on your table text channel.`)
 
-        const channelLocked = new MessageEmbed()
+        const categoryLocked = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
         .setDescription('This voice channel is already locked.\nPlease use ``unlock`` command if you wish to unlock.')
 
-        const channelLockedSuccess = new MessageEmbed()
+        const channelLockSuccess = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
@@ -58,10 +58,10 @@ module.exports = {
 
         if(message.channel.parentId !== message.member.voice.channel.parentId) return message.channel.send({ embeds: [wrongChannel] }).catch(err => console.error)
 
-        if(userVoiceChannel.name.includes("🔒")) return message.channel.send({ embeds: [channelLocked] }).catch(err => console.error)
+        if(userCategoryChannel.name.includes("🔒")) return message.channel.send({ embeds: [categoryLocked] }).catch(err => console.error)
 
         let userNickname = message.member.displayName;
-        let lockedVoiceChannel = userVoiceChannel.name + " 🔒";
+        let lockedVoiceChannel = userCategoryChannel.name + " 🔒";
         //Lock Channel
         await userVoiceChannel.permissionOverwrites.set([
             {
@@ -69,7 +69,7 @@ module.exports = {
                deny: [Permissions.FLAGS.CONNECT],
             },
           ],).catch(err => console.error)
-        await userVoiceChannel.setName(lockedVoiceChannel).catch(err => console.error)
-        .then(await message.channel.send({ embeds: [channelLockedSuccess] })).catch(err => console.error)
+        await userCategoryChannel.setName(lockedVoiceChannel).catch(err => console.error)
+        .then(await message.channel.send({ embeds: [channelLockSuccess] })).catch(err => console.error)
     }
 }

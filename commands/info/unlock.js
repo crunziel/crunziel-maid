@@ -34,13 +34,13 @@ module.exports = {
         .setTimestamp()
         .setDescription(`Please use this command on your table text channel.`)
 
-        const channelUnlocked = new MessageEmbed()
+        const categoryUnlocked = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
         .setDescription('This voice channel is already unlocked.\nPlease use ``lock`` command if you wish to lock.')
 
-        const channelUnlockedSuccess = new MessageEmbed()
+        const channelUnlockSuccess = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
@@ -60,21 +60,19 @@ module.exports = {
 
         if(message.channel.parentId !== message.member.voice.channel.parentId) return message.channel.send({ embeds: [wrongChannel] }).catch(err => console.error)
 
-
-        console.log(message.member.voice.channel.permissionsFor(message.guild.roles.everyone.id).bitfield)
         //check if no 🔒 but have the connect flag deny, unlock it
-        if(!userVoiceChannel.name.includes("🔒") && message.member.voice.channel.permissionsFor(message.guild.roles.everyone.id).bitfield === 246996786752n) {
+        if(!userCategoryChannel.name.includes("🔒") && message.member.voice.channel.permissionsFor(message.guild.roles.everyone.id).bitfield === 246996786752n) {
             await userVoiceChannel.permissionOverwrites.set([
                 {
                    id: message.guild.roles.everyone,
                    default: [Permissions.FLAGS.CONNECT],
                 },
               ],).catch(err => console.error)
-            await userVoiceChannel.setName('Voice Chat').catch(err => console.error)
-            return message.channel.send({ embeds: [channelUnlockedSuccess] }).catch(err => console.error)
+            await userCategoryChannel.setName('Voice Chat').catch(err => console.error)
+            return await message.channel.send({ embeds: [channelUnlockSuccess] }).catch(err => console.error)
         }
 
-        if(!userVoiceChannel.name.includes("🔒")) return message.channel.send({ embeds: [channelUnlocked] }).catch(err => console.error)
+        if(!userCategoryChannel.name.includes("🔒")) return message.channel.send({ embeds: [categoryUnlocked] }).catch(err => console.error)
 
         //Lock Channel
         await userVoiceChannel.permissionOverwrites.set([
@@ -83,7 +81,7 @@ module.exports = {
                default: [Permissions.FLAGS.CONNECT],
             },
           ],).catch(err => console.error)
-        await userVoiceChannel.setName('Voice Chat').catch(err => console.error)
-        await message.channel.send({ embeds: [channelUnlockedSuccess] }).catch(err => console.error)
+        await userCategoryChannel.setName(`♢ ${userNickname}'s Table ♢`).catch(err => console.error)
+        await message.channel.send({ embeds: [channelUnlockSuccess] }).catch(err => console.error)
     }
 }
