@@ -46,6 +46,14 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
         .setTitle(`RESERVED For ${newState.member.displayName}`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
 
+        const tableProperties = new MessageEmbed()
+        .setColor(`${client.config.embedColor}`)
+        .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
+        .setTimestamp()
+        .setTitle(`Table Properties`)
+        .addField("Table Owner", `${newState.member.displayName}`, true)
+        .addField("Lock Status", "Unlocked", true)
+
         const tableHistory = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
@@ -81,6 +89,13 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
             .then(async voice => {
                 //Send Welcome Message
                 await newState.guild.channels.cache.get(text.id).send({ embeds : [welcomeMessage] })
+                await newState.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
+                    async message => {
+                        //Set key
+                        client.voicedata.set(text.id, message.id)
+                        //Pin the message
+                        message.pin()
+                    })
                 //Create key and pushing an array
                 await client.voicedata.set(newState.member.id, voice.id)
                 await client.voicedata.push("voiceArray", { voiceID: voice.id, catID: category.id, textID: text.id, guildID: newState.guild.id, memberID: newState.member.id })
@@ -108,7 +123,8 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                 await client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).catID).delete()
                 console.log(`[ Channels Log ] ${userNickname}'s channels destroyed`)
                 //Removing Key and Array
-                await client.voicedata.delete(client.voicedata.get("voiceArray", i).memberID)
+                await client.voicedata.delete(client.voicedata.get("voiceArray", i).textID) //delete textchannel key ( buat message id di lock/unlock nanti )
+                await client.voicedata.delete(client.voicedata.get("voiceArray", i).memberID) //delete member id key ( buat check ada udah punya room / belom )
                 return client.voicedata.remove("voiceArray", (value) => value.memberID === newState.member.id)
                 
             }  

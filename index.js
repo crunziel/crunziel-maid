@@ -20,12 +20,6 @@ if (!client.voicedata.has('voiceArray')) {
     console.log("[ Database Log ] voiceArray Key Has Been Created");
 }
 
-//Create channelOwner key
-if (!client.voicedata.has('channelOwner')) {
-    client.voicedata.set('channelOwner', {});
-    console.log("[ Database Log ] channelOwner Key Has Been Created");
-}
-
 // Global Variables
 client.commands = new Collection();
 client.slashCommands = new Collection();

@@ -46,9 +46,33 @@ module.exports = {
         .setTimestamp()
         .setDescription('This voice channel is now locked.\nPlease use ``unlock`` command if you wish to unlock.')
 
+        //Fetch Message
+        const fetchMessage = (await message.channel.messages.fetch(client.voicedata.get(message.channel.id)))
+
+        //Change Lock Status Value
+        const editEmbed = new MessageEmbed(embedMessage.embeds[0])
+        .spliceFields(1, 1, {name: "**Lock Status**", value: "Locked", inline: true});
+
         let userVoiceChannel = message.member.voice.channel;
         let userCategoryChannel = message.member.voice.channel.parent;
 
+        const lock = async () => {
+            await userVoiceChannel.permissionOverwrites.set([
+                {
+                   id: message.guild.roles.everyone.id,
+                   deny: [Permissions.FLAGS.CONNECT],
+                },
+            ],).catch(err => console.error)
+
+            //Edit Message
+            fetchMessage()
+            .then( msg => {
+                const fetchedMsg = msg
+                fetchedMsg.edit({ embeds: [editEmbed] })
+            })
+            
+            return message.channel.send({ embeds: [channelLockSuccess] }).catch(err => console.error)
+        }
 
         if(!userVoiceChannel) return message.channel.send({ embeds: [noVoiceConnected] }).catch(err => console.error)
 
@@ -62,14 +86,8 @@ module.exports = {
 
         let userNickname = message.member.displayName;
         let lockedVoiceChannel = userCategoryChannel.name + " 🔒";
-        //Lock Channel
-        await userVoiceChannel.permissionOverwrites.set([
-            {
-               id: message.guild.roles.everyone.id,
-               deny: [Permissions.FLAGS.CONNECT],
-            },
-          ],).catch(err => console.error)
-        await userCategoryChannel.setName(lockedVoiceChannel).catch(err => console.error)
-        .then(await message.channel.send({ embeds: [channelLockSuccess] })).catch(err => console.error)
+
+        //Calling Lock
+        await lock()
     }
 }
