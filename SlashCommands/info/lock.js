@@ -47,30 +47,45 @@ module.exports = {
         .setTimestamp()
         .setDescription('This voice channel is now locked.\nPlease use ``unlock`` command if you wish to unlock.')
 
+        //Fetch Message
+        const fetchMessage = (await interaction.channel.messages.fetch(client.voicedata.get(interaction.channel.id)))
+
+        //Change Lock Status Value
+        const editEmbed = new MessageEmbed(fetchMessage.embeds[0])
+        .spliceFields(2, 1, {name: "**Lock Status**", value: "Locked", inline: true});
+
         let userVoiceChannel = interaction.member.voice.channel;
         let userCategoryChannel = interaction.member.voice.channel.parent;
 
+        const lock = async () => {
+            await userVoiceChannel.permissionOverwrites.set([
+                {
+                   id: interaction.guild.roles.everyone.id,
+                   deny: [Permissions.FLAGS.CONNECT],
+                },
+            ],).catch(err => console.error)
+
+            //Edit Message
+            await interaction.channel.messages.fetch(client.voicedata.get(interaction.channel.id))
+            .then( msg => {
+                const fetchedMsg = msg
+                fetchedMsg.edit({ embeds: [editEmbed] })
+            })
+            
+            return interaction.followUp({ embeds: [channelLockSuccess] }).catch(err => console.error)
+        }
 
         if(!userVoiceChannel) return interaction.followUp({ embeds: [noVoiceConnected] }).catch(err => console.error)
 
         if(userVoiceChannel.name.startsWith("Public")) return interaction.followUp({ embeds: [publicChannelConnected] }).catch(err => console.error)
 
-        if(userCategoryChannel.name.includes("Table") && !userCategoryChannel.name.includes(interaction.member.displayName + "'s")) return interaction.followUp({ embeds: [notTableOwner] }).catch(err => console.error)
+        if(!fetchMessage.embeds[0].fields[1].value === interaction.member.id) return interaction.followUp({ embeds: [notTableOwner] }).catch(err => console.error)
 
         if(interaction.channel.parentId !== interaction.member.voice.channel.parentId) return interaction.followUp({ embeds: [wrongChannel] }).catch(err => console.error)
 
-        if(userCategoryChannel.name.includes("🔒")) return interaction.followUp({ embeds: [categoryLocked] }).catch(err => console.error)
+        if(fetchMessage.embeds[0].fields[2].value === 'Locked') return interaction.followUp({ embeds: [categoryLocked] }).catch(err => console.error)
 
-        let userNickname = interaction.member.displayName;
-        let lockedVoiceChannel = userCategoryChannel.name + " 🔒";
         //Lock Channel
-        await userVoiceChannel.permissionOverwrites.set([
-            {
-               id: interaction.guild.roles.everyone.id,
-               deny: [Permissions.FLAGS.CONNECT],
-            },
-          ],).catch(err => console.error)
-        await userCategoryChannel.setName(lockedVoiceChannel).catch(err => console.error)
-        .then(await interaction.followUp({ embeds: [channelLockSuccess] })).catch(err => console.error)
+        return lock()
     }
 };

@@ -51,7 +51,7 @@ module.exports = {
 
         //Change Lock Status Value
         const editEmbed = new MessageEmbed(fetchMessage.embeds[0])
-        .spliceFields(1, 1, {name: "**Lock Status**", value: "Unlocked", inline: true});
+        .spliceFields(2, 1, {name: "**Lock Status**", value: "Unlocked", inline: true});
 
         let userVoiceChannel = message.member.voice.channel;
         let userCategoryChannel = message.member.voice.channel.parent;
@@ -81,14 +81,14 @@ module.exports = {
 
         let userNickname = message.member.displayName;
 
-        if(!fetchMessage.embeds[0].fields[0].value === message.member.displayName) return message.channel.send({ embeds: [notTableOwner] }).catch(err => console.error)
+        if(!fetchMessage.embeds[0].fields[1].value === message.member.id) return message.channel.send({ embeds: [notTableOwner] }).catch(err => console.error)
 
         if(message.channel.parentId !== message.member.voice.channel.parentId) return message.channel.send({ embeds: [wrongChannel] }).catch(err => console.error)
 
         //check if no 🔒 but have the connect flag deny, unlock it anyway
-        if(fetchMessage.embeds[0].fields[1].value === 'Unlocked' && userVoiceChannel.permissionsFor(message.guild.roles.everyone.id).bitfield === 246996786752n) return unlock()
+        if(fetchMessage.embeds[0].fields[2].value === 'Unlocked' && userVoiceChannel.permissionsFor(message.guild.roles.everyone.id).bitfield === 246996786752n) return unlock()
 
-        if(fetchMessage.embeds[0].fields[1].value === 'Unlocked') return message.channel.send({ embeds: [categoryUnlocked] }).catch(err => console.error)
+        if(fetchMessage.embeds[0].fields[2].value === 'Unlocked') return message.channel.send({ embeds: [categoryUnlocked] }).catch(err => console.error)
 
         //Calling Unlock
         await unlock()

@@ -52,6 +52,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
         .setTimestamp()
         .setTitle(`Table Properties`)
         .addField("Table Owner", `${newState.member.displayName}`, true)
+        .addField("Owner ID", `${newState.member.id}`, true)
         .addField("Lock Status", "Unlocked", true)
 
         const tableHistory = new MessageEmbed()
