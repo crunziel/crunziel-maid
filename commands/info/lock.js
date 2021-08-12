@@ -50,7 +50,7 @@ module.exports = {
         const fetchMessage = (await message.channel.messages.fetch(client.voicedata.get(message.channel.id)))
 
         //Change Lock Status Value
-        const editEmbed = new MessageEmbed(embedMessage.embeds[0])
+        const editEmbed = new MessageEmbed(fetchMessage.embeds[0])
         .spliceFields(1, 1, {name: "**Lock Status**", value: "Locked", inline: true});
 
         let userVoiceChannel = message.member.voice.channel;
@@ -65,7 +65,7 @@ module.exports = {
             ],).catch(err => console.error)
 
             //Edit Message
-            fetchMessage()
+            await message.channel.messages.fetch(client.voicedata.get(message.channel.id))
             .then( msg => {
                 const fetchedMsg = msg
                 fetchedMsg.edit({ embeds: [editEmbed] })
@@ -78,14 +78,11 @@ module.exports = {
 
         if(userVoiceChannel.name.startsWith("Public")) return message.channel.send({ embeds: [publicChannelConnected] }).catch(err => console.error)
 
-        if(userCategoryChannel.name.includes("Table") && !userCategoryChannel.name.includes(message.member.displayName + "'s")) return message.channel.send({ embeds: [notTableOwner] }).catch(err => console.error)
+        if(!fetchMessage.embeds[0].fields[0].value === message.member.displayName) return message.channel.send({ embeds: [notTableOwner] }).catch(err => console.error)
 
         if(message.channel.parentId !== message.member.voice.channel.parentId) return message.channel.send({ embeds: [wrongChannel] }).catch(err => console.error)
 
-        if(userCategoryChannel.name.includes("🔒")) return message.channel.send({ embeds: [categoryLocked] }).catch(err => console.error)
-
-        let userNickname = message.member.displayName;
-        let lockedVoiceChannel = userCategoryChannel.name + " 🔒";
+        if(fetchMessage.embeds[0].fields[1].value === 'Locked') return message.channel.send({ embeds: [categoryLocked] }).catch(err => console.error)
 
         //Calling Lock
         await lock()
