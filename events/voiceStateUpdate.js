@@ -1,26 +1,9 @@
 const client = require("../index")
 const { MessageEmbed, Permissions } = require('discord.js');
-const { getVoiceConnection, VoiceConnectionStatus, entersState } = require('@discordjs/voice');
 
 client.on("voiceStateUpdate", async (oldState, newState) => {
 
     const userNickname = newState.member.displayName;
-
-    //Auto Reconnect <3 v13
-    const connection = getVoiceConnection(client.config.guildID);
-    connection.on(VoiceConnectionStatus.Disconnected, async (oldState, newState) => {
-        try {
-            await Promise.race([
-                entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
-                entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
-            ]);
-            // Seems to be reconnecting to a new channel - ignore disconnect
-        } catch (error) {
-            // Seems to be a real disconnect which SHOULDN'T be recovered from
-            connection.destroy().catch(err => console.error)
-        }
-    });
-
 
     if(newState.channelId === client.config.reserveChannel && client.voicedata.has(newState.member.id) === true ) {
 
@@ -76,6 +59,22 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                 {
                     id: newState.member.id,
                     allow: [Permissions.FLAGS.VIEW_CHANNEL],
+                },
+                {
+                    id: newState.member.id,
+                    allow: [Permissions.FLAGS.MUTE_MEMBERS],
+                },
+                {
+                    id: newState.member.id,
+                    allow: [Permissions.FLAGS.DEAFEN_MEMBERS],
+                },
+                {
+                    id: newState.member.id,
+                    allow: [Permissions.FLAGS.MOVE_MEMBERS],
+                },
+                {
+                    id: newState.member.id,
+                    allow: [Permissions.FLAGS.MANAGE_MESSAGES],
                 },
             ],}).catch(err => console.error)
             .then(async text => {     
