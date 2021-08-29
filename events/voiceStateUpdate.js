@@ -52,6 +52,22 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                 id: newState.member.id,
                 allow: [Permissions.FLAGS.MANAGE_CHANNELS],
             },
+            {
+                id: newState.member.id,
+                allow: [Permissions.FLAGS.MUTE_MEMBERS],
+            },
+            {
+                id: newState.member.id,
+                allow: [Permissions.FLAGS.DEAFEN_MEMBERS],
+            },
+            {
+                id: newState.member.id,
+                allow: [Permissions.FLAGS.MOVE_MEMBERS],
+            },
+            {
+                id: newState.member.id,
+                allow: [Permissions.FLAGS.MANAGE_MESSAGES],
+            },
         ],}).catch(err => console.error)
         .then(async category => {
             //Create Text Channel
@@ -59,22 +75,6 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                 {
                     id: newState.member.id,
                     allow: [Permissions.FLAGS.VIEW_CHANNEL],
-                },
-                {
-                    id: newState.member.id,
-                    allow: [Permissions.FLAGS.MUTE_MEMBERS],
-                },
-                {
-                    id: newState.member.id,
-                    allow: [Permissions.FLAGS.DEAFEN_MEMBERS],
-                },
-                {
-                    id: newState.member.id,
-                    allow: [Permissions.FLAGS.MOVE_MEMBERS],
-                },
-                {
-                    id: newState.member.id,
-                    allow: [Permissions.FLAGS.MANAGE_MESSAGES],
                 },
             ],}).catch(err => console.error)
             .then(async text => {     
