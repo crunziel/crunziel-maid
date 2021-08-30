@@ -60,7 +60,7 @@ client.on("guildMemberAdd", async member => {
     const welcomeembed = new MessageEmbed()
       .setColor("RANDOM")
       .setTimestamp()
-      .setFooter("Welcome", member.guild.iconURL({ dynamic: true }))
+      .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
       .setDescription(`Hey <@${member.id}>!, Welcome to **${member.guild.name}!**`)
       .setImage("attachment://welcome-image.png")
     //define the welcome channel
