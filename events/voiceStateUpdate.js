@@ -113,22 +113,22 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
     //Loop
     if (client.voicedata.get("voiceArray").length >= 0) for(let i = 0; i < client.voicedata.get("voiceArray").length; i++) {
         let ch = client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).voiceID)
-        if(ch === undefined) return
-        try{         
-            if(ch.members.size <= 0) {
-
-                //Deleting Channels
-                await ch.delete()
-                await client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).textID).delete()
-                await client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).catID).delete()
-                console.log(`[ Channels Log ] ${userNickname}'s channels destroyed`)
-                //Removing Key and Array
-                await client.voicedata.delete(client.voicedata.get("voiceArray", i).textID) //delete textchannel key ( buat message id di lock/unlock nanti )
-                await client.voicedata.delete(client.voicedata.get("voiceArray", i).memberID) //delete member id key ( buat check ada udah punya room / belom )
-                return client.voicedata.remove("voiceArray", (value) => value.memberID === newState.member.id)
-                
+        if(ch === undefined) return console.log("[ Channels Log ] CH = UNDEFINED")
+                 
+        if(ch.members.size <= 0) {
+            try{
+            //Deleting Channels
+            await ch.delete()
+            await client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).textID).delete()
+            await client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).catID).delete()
+            console.log(`[ Channels Log ] ${userNickname}'s channels destroyed`)
+            //Removing Key and Array
+            await client.voicedata.delete(client.voicedata.get("voiceArray", i).textID) //delete textchannel key ( buat message id di lock/unlock nanti )
+            await client.voicedata.delete(client.voicedata.get("voiceArray", i).memberID) //delete member id key ( buat check ada udah punya room / belom )
+            return client.voicedata.remove("voiceArray", (value) => value.memberID === newState.member.id)
+            }catch (error) {
+                console.log(error)
             }  
-        } catch (error) {
-        console.log(error)
-    }}
+        }
+    }
 });
