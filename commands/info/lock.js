@@ -47,7 +47,7 @@ module.exports = {
         .setDescription('This voice channel is now locked.\nPlease use ``unlock`` command if you wish to unlock.')
 
         //Fetch Message
-        const fetchMessage = (await message.channel.messages.fetch(client.voicedata.get(message.channel.id)))
+        const fetchMessage = (await message.channel.messages.fetch(client.textdata.get(message.channel.id)))
 
         //Change Lock Status Value
         const editEmbed = new MessageEmbed(fetchMessage.embeds[0])
@@ -65,7 +65,7 @@ module.exports = {
             ],).catch(err => console.error)
 
             //Edit Message
-            await message.channel.messages.fetch(client.voicedata.get(message.channel.id))
+            await message.channel.messages.fetch(client.textdata.get(message.channel.id))
             .then( msg => {
                 const fetchedMsg = msg
                 fetchedMsg.edit({ embeds: [editEmbed] })

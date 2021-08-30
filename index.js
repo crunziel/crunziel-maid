@@ -14,11 +14,17 @@ client.voicedata = new Enmap({
     autoFetch: true
 })
 
-//Create voiceArray key
-if (!client.voicedata.has('voiceArray')) {
-    client.voicedata.set('voiceArray', []);
-    console.log("[ Database Log ] voiceArray Key Has Been Created");
-}
+client.textdata = new Enmap({
+    name: "textdata",
+    fetchAll: true,
+    autoFetch: true
+})
+
+client.memberdata = new Enmap({
+    name: "memberdata",
+    fetchAll: true,
+    autoFetch: true
+})
 
 // Global Variables
 client.commands = new Collection();

@@ -5,7 +5,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
 
     const userNickname = newState.member.displayName;
 
-    if(newState.channelId === client.config.reserveChannel && client.voicedata.has(newState.member.id) === true ) {
+    if(newState.channelId === client.config.reserveChannel && client.memberdata.has(newState.member.id) === true ) {
 
         const maxChannelReached = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
@@ -17,7 +17,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
         //Send Message
         await newState.guild.channels.cache.find(c => c.name === "table-history").send({ embeds : [maxChannelReached] }).catch(err => console.error)
         //Transfer User
-        return newState.setChannel(client.voicedata.get(newState.member.id)).catch(err => console.error)
+        return newState.setChannel(client.memberdata.get(newState.member.id)).catch(err => console.error)
     }
 
     if(newState.channelId === client.config.reserveChannel && newState.member.id !== client.config.botID){
@@ -92,13 +92,12 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                 await newState.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
                     async message => {
                         //Set key
-                        client.voicedata.set(text.id, message.id)
+                        client.textdata.set(text.id, message.id)
                         //Pin the message
                         message.pin()
-                    })
                 //Create key and pushing an array
-                await client.voicedata.set(newState.member.id, voice.id)
-                await client.voicedata.push("voiceArray", { voiceID: voice.id, catID: category.id, textID: text.id, guildID: newState.guild.id, memberID: newState.member.id })
+                await client.memberdata.set(newState.member.id, voice.id)
+                await client.voicedata.set(voice.id, {voiceID: `${voice.id}`, catID: `${category.id}`, textID: `${text.id}`, guildID: `${newState.guild.id}`, memberID: `${newState.member.id}`})
                 //Transfer User
                 if(newState.channelId === client.config.reserveChannel){
                     await client.wait(2000)
@@ -106,29 +105,41 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                     newState.setChannel(voice.id).catch(err => console.error)
                     await client.wait(2000)
                 } else return
-            })})
+            })})})
         })
     } 
 
     //Loop
-    if (client.voicedata.get("voiceArray").length >= 0) for(let i = 0; i < client.voicedata.get("voiceArray").length; i++) {
-        let ch = client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).voiceID)
-        if(ch === undefined) return console.log("[ Channels Log ] CH = UNDEFINED")
-                 
-        if(ch.members.size <= 0) {
-            try{
-            //Deleting Channels
-            await ch.delete()
-            await client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).textID).delete()
-            await client.guilds.cache.find(x => x.id === client.voicedata.get("voiceArray", i).guildID).channels.cache.find(x => x.id === client.voicedata.get("voiceArray", i).catID).delete()
-            console.log(`[ Channels Log ] ${userNickname}'s channels destroyed`)
-            //Removing Key and Array
-            await client.voicedata.delete(client.voicedata.get("voiceArray", i).textID) //delete textchannel key ( buat message id di lock/unlock nanti )
-            await client.voicedata.delete(client.voicedata.get("voiceArray", i).memberID) //delete member id key ( buat check ada udah punya room / belom )
-            return client.voicedata.remove("voiceArray", (value) => value.memberID === newState.member.id)
-            }catch (error) {
-                console.log(error)
-            }  
+    try{
+        if (!oldState.channel) return
+
+        if (!oldState.channel.members.size && client.voicedata.has(oldState.channel.id)) {
+
+            const tabledelete = async () => {
+            let voiceID = client.voicedata.get(oldState.channel.id).voiceID
+            let guildID = client.voicedata.get(oldState.channel.id).guildID
+            let textID = client.voicedata.get(oldState.channel.id).textID
+            let catID = client.voicedata.get(oldState.channel.id).catID
+            let memberID = client.voicedata.get(oldState.channel.id).memberID
+
+            await oldState.channel.delete();
+            client.wait(250)
+            await client.guilds.cache.get(guildID).channels.cache.get(textID).delete();
+            client.wait(250)
+            await client.guilds.cache.get(guildID).channels.cache.get(catID).delete();
+            // Remove the channel id from the temporary channels set
+            await client.textdata.delete(textID); //delete textdata
+            await client.memberdata.delete(memberID); //delete memberdata
+            return client.voicedata.delete(voiceID); //delete voicedata
+            }
+
+            if (!newState.channel && oldState.channel.id !== null) return await tabledelete()
+
+            if (oldState.channel.id !== newState.channel.id ) return await tabledelete()
         }
+    } catch (error) {
+        // Handle any errors
+        console.error(error);
     }
+
 });
