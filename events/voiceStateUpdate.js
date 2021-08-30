@@ -127,6 +127,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
             await client.guilds.cache.get(guildID).channels.cache.get(textID).delete();
             client.wait(250)
             await client.guilds.cache.get(guildID).channels.cache.get(catID).delete();
+            console.log(`[ Channels Log ] ${client.guilds.cache.get(guildID).members.cache.get(memberID).displayName}'s channels destroyed`)
             // Remove the channel id from the temporary channels set
             await client.textdata.delete(textID); //delete textdata
             await client.memberdata.delete(memberID); //delete memberdata
