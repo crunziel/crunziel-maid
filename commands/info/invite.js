@@ -82,7 +82,7 @@ module.exports = {
         let userVoiceChannel = message.member.voice.channel;
 
         //Fetch Message
-        const fetchMessage = (await message.channel.messages.fetch(client.voicedata.get(message.channel.id)))
+        const fetchMessage = (await message.channel.messages.fetch(client.textdata.get(message.channel.id)))
 
         if(!userVoiceChannel) return message.channel.send({ embeds: [noVoiceConnected] }).catch(err => console.error)
 

@@ -28,6 +28,13 @@ client.on("ready", async () => {
         }
     });
 
-    client.user.setPresence({ game: [{ name: 'With CrunzieL <3' }] })
+    client.user.setPresence({
+        status: "online",
+        activity: {
+            name: "with CrunzieL <3",
+            type: "PLAYING"
+        }
+    });
+
     console.log(`[ Client ] ${client.user.username} is now Online!`)
 });
