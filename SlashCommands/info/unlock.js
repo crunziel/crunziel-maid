@@ -61,7 +61,7 @@ module.exports = {
             await userVoiceChannel.permissionOverwrites.set([
                 {
                    id: interaction.guild.roles.everyone.id,
-                   deny: [Permissions.FLAGS.CONNECT],
+                   default: [Permissions.FLAGS.CONNECT],
                 },
             ],).catch(err => console.error)
 
