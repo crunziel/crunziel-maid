@@ -61,7 +61,7 @@ client.on("guildMemberAdd", async member => {
       .setColor("RANDOM")
       .setTimestamp()
       .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
-      setTitle('OKAERINASAIMASE GOSHUJINSAMA~!')
+      .setTitle('OKAERINASAIMASE GOSHUJINSAMA~!')
       .addField(`Hey <@${member.id}>!, Welcome to **${member.guild.name}!**`)
       .addField(`${member.guild.name} is a maid and butler café themed discord server. Take a quick rest and enjoy music with our beautiful maids and handsome butlers!~ We look forward to serving you and We will make sure you have a wonderful time here!~`)
       .setImage("attachment://welcome-image.png")
