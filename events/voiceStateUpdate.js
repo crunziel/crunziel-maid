@@ -33,13 +33,11 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
 
         const welcomeMessage = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
-        .setTimestamp()
         .setTitle(`Irasshaimase! This table is reserved for ${newState.member.displayName}`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
 
         const botsAvailable = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
-        .setTimestamp()
         .setTitle(`Maid and Butler status as of now`)
         .addField("Niya [!]", niyaVoiceStatus, true)
         .addField("Mugi [~]", mugiVoiceStatus, true)
