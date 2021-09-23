@@ -30,20 +30,15 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
         if(mugi.voice.channel) { mugiVoiceStatus = `Not Available`} else { mugiVoiceStatus = `Available` }
         if(mashu.voice.channel) { mashuVoiceStatus = `Not Available`} else { mashuVoiceStatus = `Available` }
 
-        console.log(niyaVoiceStatus)
-        console.log(mugiVoiceStatus)
-        console.log(mashuVoiceStatus)
 
         const welcomeMessage = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
-        .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
         .setTitle(`Irasshaimase! This table is reserved for ${newState.member.displayName}`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
 
         const botsAvailable = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
-        .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
         .setTitle(`Maid and Butler status as of now`)
         .addField("Niya [!]", niyaVoiceStatus, true)
