@@ -4,6 +4,10 @@ const { MessageEmbed, Permissions } = require('discord.js');
 client.on("voiceStateUpdate", async (oldState, newState) => {
 
     const userNickname = newState.member.displayName;
+    //bots
+    const niya = newState.guild.members.cache.get("407170163553861632");
+    const mugi = newState.guild.members.cache.get("881356777155870721");
+    const mashu = newState.guild.members.cache.get("890240719636267028");
 
     if(newState.channelId === client.config.reserveChannel && client.memberdata.has(newState.member.id) === true ) {
 
@@ -22,12 +26,29 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
 
     if(newState.channelId === client.config.reserveChannel && newState.member.id !== client.config.botID){
 
+        if(niya.voice.channel) { niyaVoiceStatus = `Not Available`} else { niyaVoiceStatus = `Available` }
+        if(mugi.voice.channel) { mugiVoiceStatus = `Not Available`} else { mugiVoiceStatus = `Available` }
+        if(mashu.voice.channel) { mashuVoiceStatus = `Not Available`} else { mashuVoiceStatus = `Available` }
+
+        console.log(niyaVoiceStatus)
+        console.log(mugiVoiceStatus)
+        console.log(mashuVoiceStatus)
+
         const welcomeMessage = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
-        .setTitle(`RESERVED For ${newState.member.displayName}`)
+        .setTitle(`Irasshaimase! This table is reserved for ${newState.member.displayName}`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
+
+        const botsAvailable = new MessageEmbed()
+        .setColor(`${client.config.embedColor}`)
+        .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
+        .setTimestamp()
+        .setTitle(`Maid and Butler status as of now`)
+        .addField("Niya [!]", niyaVoiceStatus, true)
+        .addField("Mugi [~]", mugiVoiceStatus, true)
+        .addField("Mashu [?]", mashuVoiceStatus, true)
 
         const tableProperties = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
@@ -89,6 +110,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
             .then(async voice => {
                 //Send Welcome Message
                 await newState.guild.channels.cache.get(text.id).send({ embeds : [welcomeMessage] })
+                await newState.guild.channels.cache.get(text.id).send({ embeds : [botsAvailable] })
                 await newState.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
                     async message => {
                         //Set key

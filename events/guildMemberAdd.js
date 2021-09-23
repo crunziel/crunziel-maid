@@ -61,7 +61,9 @@ client.on("guildMemberAdd", async member => {
       .setColor("RANDOM")
       .setTimestamp()
       .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
-      .setDescription(`Hey <@${member.id}>!, Welcome to **${member.guild.name}!**`)
+      setTitle('OKAERINASAIMASE GOSHUJINSAMA~!')
+      .addField(`Hey <@${member.id}>!, Welcome to **${member.guild.name}!**`)
+      .addField(`${member.guild.name} is a maid and butler café themed discord server. Take a quick rest and enjoy music with our beautiful maids and handsome butlers!~ We look forward to serving you and We will make sure you have a wonderful time here!~`)
       .setImage("attachment://welcome-image.png")
     //define the welcome channel
     const channel = member.guild.channels.cache.find(ch => ch.id === client.config.welcomeChannel);
@@ -72,3 +74,5 @@ client.on("guildMemberAdd", async member => {
     for(let i = 0; i < roles.length; i++ )
     member.roles.add(roles[i]);
   })
+
+  //.setDescription(`Hey <@${member.id}>!, Welcome to **${member.guild.name}!**`)
