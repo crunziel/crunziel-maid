@@ -62,7 +62,7 @@ client.on("guildMemberAdd", async member => {
       .setTimestamp()
       .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
       .setTitle(`OKAERINASAIMASE GOSHUJINSAMA!~`)
-      .addField(`Hey <@${member.displayName}>! Welcome to **${member.guild.name}!**`, `${member.guild.name} is a maid and butler café themed discord server. Take a quick rest and enjoy music with our beautiful maids and handsome butlers!~ We look forward to serving you and We will make sure you have a wonderful time here!~`, true)
+      .addField(`Hey ${member.displayName}! Welcome to **${member.guild.name}!**`, `${member.guild.name} is a maid and butler café themed discord server. Take a quick rest and enjoy music with our beautiful maids and handsome butlers!~ We look forward to serving you and We will make sure you have a wonderful time here!~`, true)
       .setImage("attachment://welcome-image.png")
     //define the welcome channel
     const channel = member.guild.channels.cache.find(ch => ch.id === client.config.welcomeChannel);
