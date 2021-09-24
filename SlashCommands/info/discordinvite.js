@@ -11,7 +11,14 @@ module.exports = {
      * @param {String[]} args
      */
     run: async (client, interaction, args) => {
-        interaction.editReply(`Hey <@${interaction.member.id}>! Thanks for making this server bigger! Here's the invite link`)
+
+        const inviteLink = new MessageEmbed()
+        .setColor(`${client.config.embedColor}`)
+        .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
+        .setTimestamp()
+        .setDescription(`Hey <@${interaction.member.id}>! Thanks for making this server bigger! Here's the invite link`)
+
+        interaction.editReply({ embeds: [inviteLink] })
         return interaction.followUp({ content: 'https://discord.gg/bWRzRqp2WW', ephemeral: true });
     }
 };

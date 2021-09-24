@@ -22,10 +22,15 @@ module.exports = {
 
         if(client.memberdata.has(interaction.member.id) === true) {
 
+            const maxChannelReached = new MessageEmbed()
+            .setColor(`${client.config.embedColor}`)
+            .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
+            .setTimestamp()
+            .setDescription(`<@${newState.member.id}>, You only can have 1 table at a time.\nI will move you to your table.`)
+
             //Transfer User
-            await interaction.editReply(`<@${interaction.member.id}>, You only can have 1 table at a time.\nI will move you to your table.`)
-            await interaction.member.voice.setChannel(client.memberdata.get(interaction.member.id)).catch(err => console.error)
-            return interaction.followUp({ content: 'Command executed successfully, if you have any problem please contact CrunzieL#1213', ephemeral: true });
+            await interaction.editReply({ embeds: [maxChannelReached], ephemeral: true })
+            return interaction.member.voice.setChannel(client.memberdata.get(interaction.member.id)).catch(err => console.error)
 
         }
 
@@ -61,6 +66,12 @@ module.exports = {
         .setTimestamp()
         .setTitle('RESERVATION')
         .setDescription(`${interaction.member.displayName}, i have reserved a table for you.\nI will move you to the table in 5 seconds.`)
+
+        const tableCreated = new MessageEmbed()
+        .setColor(`${client.config.embedColor}`)
+        .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
+        .setTimestamp()
+        .setDescription(`${interaction.member.displayName}, i have reserved a table for you.\nI will move you to the table.`)
     
     
         //Create Category with Permission
@@ -105,7 +116,7 @@ module.exports = {
             .then(await interaction.guild.channels.cache.find(c => c.name === "table-history").send({ embeds : [tableHistory] }))
             .then(async voice => {
                 //Send Welcome Message
-                await interaction.editReply({ content: `${interaction.member.displayName}, i have reserved a table for you.\nI will move you to the table.`, ephemeral: true })
+                await interaction.editReply({ embeds: [tableCreated], ephemeral: true })
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [welcomeMessage] })
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [botsAvailable] })
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
@@ -124,8 +135,6 @@ module.exports = {
                 })
             })
         })
-
-        return interaction.followUp({ content: 'Command executed successfully, if you have any problem please contact CrunzieL#1213', ephemeral: true });
-
+        return
     }
 };
