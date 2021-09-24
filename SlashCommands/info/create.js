@@ -18,6 +18,8 @@ module.exports = {
         const mugi = interaction.guild.members.cache.get("881356777155870721");
         const mashu = interaction.guild.members.cache.get("890240719636267028");
 
+        if(!interaction.member.voice.channel) return interaction.editReply(`<@${interaction.member.id}>, You're not in a voice channel right now.`)
+
         if(client.memberdata.has(interaction.member.id) === true) {
 
             //Transfer User
