@@ -26,7 +26,7 @@ module.exports = {
             .setColor(`${client.config.embedColor}`)
             .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
             .setTimestamp()
-            .setDescription(`<@${newState.member.id}>, You only can have 1 table at a time.\nI will move you to your table.`)
+            .setDescription(`<@${interaction.member.id}>, You only can have 1 table at a time.\nI will move you to your table.`)
 
             //Transfer User
             await interaction.editReply({ embeds: [maxChannelReached], ephemeral: true })
