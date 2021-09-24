@@ -2,7 +2,7 @@ const { Client, CommandInteraction, MessageEmbed, Permissions } = require("disco
 
 module.exports = {
     name: "unlock",
-    description: "unlock your voice channel",
+    description: "Unlock your Private Table",
 
     /**
      *
