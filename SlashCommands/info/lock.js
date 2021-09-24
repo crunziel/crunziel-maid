@@ -79,7 +79,7 @@ module.exports = {
 
         if(userVoiceChannel.name.startsWith("Public")) return interaction.followUp({ embeds: [publicChannelConnected] }).catch(err => console.error)
 
-        if(!fetchMessage.embeds[0].fields[1].value === interaction.member.id) return interaction.followUp({ embeds: [notTableOwner] }).catch(err => console.error)
+        if(fetchMessage.embeds[0].fields[1].value !== interaction.member.id) return interaction.followUp({ embeds: [notTableOwner] }).catch(err => console.error)
 
         if(interaction.channel.parentId !== interaction.member.voice.channel.parentId) return interaction.followUp({ embeds: [wrongChannel] }).catch(err => console.error)
 

@@ -81,7 +81,7 @@ module.exports = {
 
         let userNickname = message.member.displayName;
 
-        if(!fetchMessage.embeds[0].fields[1].value === message.member.id) return message.channel.send({ embeds: [notTableOwner] }).catch(err => console.error)
+        if(fetchMessage.embeds[0].fields[1].value !== message.member.id) return message.channel.send({ embeds: [notTableOwner] }).catch(err => console.error)
 
         if(message.channel.parentId !== message.member.voice.channel.parentId) return message.channel.send({ embeds: [wrongChannel] }).catch(err => console.error)
 
