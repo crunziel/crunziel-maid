@@ -18,7 +18,7 @@ module.exports = {
         .setTimestamp()
         .setDescription(`Hey <@${interaction.member.id}>! Thanks for making this server bigger! Here's the invite link`)
 
-        interaction.editReply({ embeds: [inviteLink] })
-        return interaction.followUp({ content: 'https://discord.gg/bWRzRqp2WW', ephemeral: true });
+        await interaction.editReply({ embeds: [inviteLink] })
+        return await interaction.followUp({ content: 'https://discord.gg/bWRzRqp2WW', ephemeral: true });
     }
 };

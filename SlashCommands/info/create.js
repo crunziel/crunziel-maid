@@ -122,7 +122,7 @@ module.exports = {
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
                     async message => {
                         //Set key
-                        client.textdata.set(text.id, message.id)
+                        await client.textdata.set(text.id, message.id)
                         //Pin the message
                         message.pin()
                         //Create key and pushing an array
@@ -130,11 +130,10 @@ module.exports = {
                         await client.voicedata.set(voice.id, {voiceID: `${voice.id}`, catID: `${category.id}`, textID: `${text.id}`, guildID: `${interaction.guild.id}`, memberID: `${interaction.member.id}`})
                         //Transfer User
                         console.log(`[ Channels Log ] Created ${userNickname}'s channels at ${interaction.guild.id}`)
-                        interaction.member.voice.setChannel(voice.id).catch(err => console.error)
+                        return await interaction.member.voice.setChannel(voice.id).catch(err => console.error)
                     })
                 })
             })
         })
-        return
     }
 };
