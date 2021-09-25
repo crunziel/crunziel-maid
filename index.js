@@ -28,7 +28,6 @@ client.memberdata = new Enmap({
 })
 
 // Global Variables
-client.commands = new Collection();
 client.slashCommands = new Collection();
 client.config = require("./config.json");
 client.wait = wait

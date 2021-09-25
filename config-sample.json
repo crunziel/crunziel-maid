@@ -1,7 +1,8 @@
 {
     "token": "123123",
-    "prefix": ";",
     "ownerID": "360855746898034690",
+    "customerRole": ["695138954659495948"],
+    "welcomeChannel": "700336422032507000",
     "embedColor" : "#FFC0CB",
     "footerText" : "CrunzieL's Maid",
     "footerImg" : "https",
