@@ -48,7 +48,7 @@ module.exports = {
         .setDescription('This voice channel is now unlocked.\nHave a great day!')
 
         //Fetch Message
-        const fetchMessage = (await interaction.channel.messages.fetch(client.textdata.get(interaction.channel.id)))
+        const fetchMessage = await interaction.channel.messages.fetch(client.textdata.get(interaction.channel.id))
 
         //Change Lock Status Value
         const editEmbed = new MessageEmbed(fetchMessage.embeds[0])
