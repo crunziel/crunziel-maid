@@ -1,5 +1,4 @@
-const { Client, CommandInteraction, MessageEmbed, MessageActionRow, MessageButton, VoiceChannel } = require("discord.js");
-const { voice, user } = require("../..");
+const { Client, CommandInteraction, MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 
 module.exports = {
     name: "region",
@@ -22,7 +21,6 @@ module.exports = {
         
         let userVoiceChannel = interaction.member.voice.channel;
 
-        const fetchMessage = (await interaction.channel.messages.fetch(client.textdata.get(interaction.channel.id)))
 
         if(!userVoiceChannel) {
             embed.setTitle(`Set Region Error`)
@@ -36,15 +34,17 @@ module.exports = {
             return interaction.editReply({ embeds: [embed] })
         }
 
-        if(fetchMessage.embeds[0].fields[1].value !== interaction.member.id) {
+        if(interaction.channel.parent.id !== interaction.member.voice.channel.parent.id) {
             embed.setTitle(`Set Region Error`)
-            embed.setDescription(`This table is not yours.\nYou only can set your own table.\nKindly please create a table for this feature.`)
+            embed.setDescription(`Please use this command on your table text channel.`)
             return interaction.editReply({ embeds: [embed] })
         }
 
-        if(interaction.channel.parentId !== interaction.member.voice.channel.parentId) {
+        const fetchMessage = await interaction.channel.messages.fetch(client.textdata.get(interaction.channel.id).messageID)
+
+        if(fetchMessage.embeds[0].fields[1].value !== interaction.member.id) {
             embed.setTitle(`Set Region Error`)
-            embed.setDescription(`Please use this command on your table text channel.`)
+            embed.setDescription(`This table is not yours.\nYou only can set your own table.\nKindly please create a table for this feature.`)
             return interaction.editReply({ embeds: [embed] })
         }
 
@@ -92,25 +92,25 @@ module.exports = {
         collector.on('collect', async i => {
 
             if(i.customId === 'singapore') {
-                await userVoiceChannel.setRTCRegion('singapore')
+                await userVoiceChannel.setRTCRegion('singapore').catch(err => console.error)
                 embed.setTitle(`Set Region Success`)
                 embed.setDescription(`RTC Region changed to Singapore by ${i.member.displayName}`)
                 console.log(`[ Region ] Voice Channel ID : <${userVoiceChannel.id}> RTC Region changed to Singapore by ${i.member.displayName}`)
                 return await i.update({ embeds: [embed], components: [] });
             } if(i.customId === 'sydney') {
-                await userVoiceChannel.setRTCRegion('sydney')
+                await userVoiceChannel.setRTCRegion('sydney').catch(err => console.error)
                 embed.setTitle(`Set Region Success`)
                 embed.setDescription(`RTC Region changed to Sydney by ${i.member.displayName}`)
                 console.log(`[ Region ] Voice Channel ID : <${userVoiceChannel.id}> RTC Region changed to Sydney by ${i.member.displayName}`)
                 return await i.update({ embeds: [embed], components: [] });
             } if(i.customId === 'hongkong') {
-                await userVoiceChannel.setRTCRegion('hongkong')
+                await userVoiceChannel.setRTCRegion('hongkong').catch(err => console.error)
                 embed.setTitle(`Set Region Success`)
                 embed.setDescription(`RTC Region changed to Hongkong by ${i.member.displayName}`)
                 console.log(`[ Region ] Voice Channel ID : <${userVoiceChannel.id}> RTC Region changed to Hongkong by ${i.member.displayName}`)
                 return await i.update({ embeds: [embed], components: [] });
             } if(i.customId === 'automatic') {
-                await userVoiceChannel.setRTCRegion(null)
+                await userVoiceChannel.setRTCRegion(null).catch(err => console.error)
                 embed.setTitle(`Set Region Success`)
                 embed.setDescription(`RTC Region changed to Automatic by ${i.member.displayName}`)
                 console.log(`[ Region ] Voice Channel ID : <${userVoiceChannel.id}> RTC Region changed to Automatic by ${i.member.displayName}`)

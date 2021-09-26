@@ -122,7 +122,7 @@ module.exports = {
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
                     async message => {
                         //Set key
-                        await client.textdata.set(text.id, message.id)
+                        await client.textdata.set(text.id, {messageID: `${message.id}`, voiceID: `${voice.id}`})
                         //Pin the message
                         message.pin()
                         //Create key and pushing an array

@@ -20,9 +20,7 @@ module.exports = {
         const buttons = new MessageActionRow()
         
         let userVoiceChannel = interaction.member.voice.channel;
-        
-        //Fetch
-        const fetchMessage = await interaction.channel.messages.fetch(client.textdata.get(interaction.channel.id))
+    
         
         //kalo ada yang baca ini, gw pun gangerti gw tulis apa. makasih.
         if(!userVoiceChannel) {
@@ -37,15 +35,24 @@ module.exports = {
             return interaction.editReply({ embeds: [embed] })
         }
 
-        if(fetchMessage.embeds[0].fields[1].value !== interaction.member.id) {
-            embed.setTitle(`Set Region Error`)
-            embed.setDescription(`This table is not yours.\nYou only can lock your own table.\nKindly please create a table for this feature.`)
+        if(userVoiceChannel.name.startsWith("Waiting")) {
+            embed.setTitle(`Invite Error`)
+            embed.setDescription(`You can't invite someone to Waiting Lounge\nPlease create a table for this feature.`)
             return interaction.editReply({ embeds: [embed] })
         }
 
-        if(interaction.channel.parentId !== interaction.member.voice.channel.parentId) {
+        if(interaction.channel.parent.id !== interaction.member.voice.channel.parent.id) {
             embed.setTitle(`Invite Error`)
             embed.setDescription(`Please use this command on your table text channel.`)
+            return interaction.editReply({ embeds: [embed] })
+        }
+
+        //Fetch
+        const fetchMessage = await interaction.channel.messages.fetch(client.textdata.get(interaction.channel.id).messageID)
+
+        if(fetchMessage.embeds[0].fields[1].value !== interaction.member.id) {
+            embed.setTitle(`Invite Error`)
+            embed.setDescription(`This table is not yours.\nYou only can invite someone on your own table.\nKindly please create a table for this feature.`)
             return interaction.editReply({ embeds: [embed] })
         }
 

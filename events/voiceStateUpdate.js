@@ -107,7 +107,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                 await newState.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
                     async message => {
                         //Set key
-                        client.textdata.set(text.id, message.id)
+                        client.textdata.set(text.id, {messageID: `${message.id}`, voiceID: `${voice.id}`})
                         //Pin the message
                         message.pin()
                 //Create key and pushing an array
