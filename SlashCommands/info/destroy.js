@@ -164,17 +164,16 @@ module.exports = {
                 await i.update({ embeds: [embed], components: [] });
                 await client.wait(10000)
                 await tabledelete();
-                return
             } if (i.customId === 'no') {
                 embed.setTitle(`Destroy`)
                 embed.setDescription(`Hey~ You changed your mind!\nPlease do tell me if you need anything else.\n\nEnjoy your visit!`)
                 await client.wait(1000)
-                return interaction.editReply({ embeds: [embed], components: [] })
+                await interaction.update({ embeds: [embed], components: [] })
             }
         });
         
         collector.on('end', collected => {
             return
-        });        
+        });
     }
 };

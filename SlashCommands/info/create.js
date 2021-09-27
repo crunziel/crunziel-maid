@@ -14,10 +14,6 @@ module.exports = {
 
         const userNickname = interaction.member.displayName
 
-        const niya = interaction.guild.members.cache.get("407170163553861632");
-        const mugi = interaction.guild.members.cache.get("881356777155870721");
-        const mashu = interaction.guild.members.cache.get("890240719636267028");
-
         if(!interaction.member.voice.channel) return interaction.editReply(`<@${interaction.member.id}>, You're not in a voice channel right now.`)
 
         if(client.memberdata.has(interaction.member.id) === true) {
@@ -33,10 +29,6 @@ module.exports = {
             return interaction.member.voice.setChannel(client.memberdata.get(interaction.member.id)).catch(err => console.error)
 
         }
-
-        if(niya.voice.channel) { niyaVoiceStatus = `Not Available`} else { niyaVoiceStatus = `Available` }
-        if(mugi.voice.channel) { mugiVoiceStatus = `Not Available`} else { mugiVoiceStatus = `Available` }
-        if(mashu.voice.channel) { mashuVoiceStatus = `Not Available`} else { mashuVoiceStatus = `Available` }
     
     
         const welcomeMessage = new MessageEmbed()
@@ -44,12 +36,10 @@ module.exports = {
         .setTitle(`Irasshaimase! This table is reserved for ${interaction.member.displayName}`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
     
-        const botsAvailable = new MessageEmbed()
+        const musicQueuing = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
-        .setTitle(`Maid and Butler status as of now`)
-        .addField("Niya [!]", niyaVoiceStatus, true)
-        .addField("Mugi [~]", mugiVoiceStatus, true)
-        .addField("Mashu [?]", mashuVoiceStatus, true)
+        .setTitle(`Music Queuing`)
+        .setDescription(`If you want to summon a maid or butler,\nPlease use ` + '``/music``' + ` command to check the availability in order not to interrupt the others.\n\nThank you for your understanding.\nHave a good time!`)
     
         const tableProperties = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
@@ -118,7 +108,7 @@ module.exports = {
                 //Send Welcome Message
                 await interaction.editReply({ embeds: [tableCreated], ephemeral: true })
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [welcomeMessage] })
-                await interaction.guild.channels.cache.get(text.id).send({ embeds : [botsAvailable] })
+                await interaction.guild.channels.cache.get(text.id).send({ embeds : [musicQueuing] })
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
                     async message => {
                         //Set key

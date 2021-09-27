@@ -119,7 +119,7 @@ module.exports = {
                 embed.setTitle(`Set Region Error`)
                 embed.setDescription(`An error has occured. :(\nIf you think this is a server error please contact CrunzieL.`)
                 console.log(`[ Region ] An error has occured.`)
-                return interaction.editReply({ embeds: [embed], components: [] })
+                return i.update({ embeds: [embed], components: [] })
             }
         });
         
