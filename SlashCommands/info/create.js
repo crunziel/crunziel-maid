@@ -29,18 +29,18 @@ module.exports = {
             return interaction.member.voice.setChannel(client.memberdata.get(interaction.member.id)).catch(err => console.error)
 
         }
-    
-    
+
+
         const welcomeMessage = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setTitle(`Irasshaimase! This table is reserved for ${interaction.member.displayName}`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
-    
+
         const musicQueuing = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setTitle(`Music Queuing`)
         .setDescription(`If you want to summon a maid or butler,\nPlease use ` + '``/music``' + ` command to check the availability in order not to interrupt the others.\n\nThank you for your understanding.\nHave a good time!`)
-    
+
         const tableProperties = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
@@ -49,7 +49,7 @@ module.exports = {
         .addField("Table Owner", `${interaction.member.displayName}`, true)
         .addField("Owner ID", `${interaction.member.id}`, true)
         .addField("Lock Status", "Unlocked", true)
-    
+
         const tableHistory = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
@@ -62,8 +62,8 @@ module.exports = {
         .setFooter(`${client.config.footerText}`, `${client.config.footerImg}`)
         .setTimestamp()
         .setDescription(`${interaction.member.displayName}, i have reserved a table for you.\nI will move you to the table.`)
-    
-    
+
+
         //Create Category with Permission
         await interaction.guild.channels.create(`♢ ${userNickname}'s Table ♢`, {type: 'GUILD_CATEGORY', permissionOverwrites: [
             {
@@ -75,6 +75,10 @@ module.exports = {
             //Create Text Channel
             await interaction.guild.channels.create(`chit-chat`, {type: 'GUILD_TEXT', parent: category.id, permissionOverwrites: [
                 {
+                    id: newState.member.id,
+                    allow: [Permissions.FLAGS.CREATE_INSTANT_INVITE],
+                },
+                {
                     id: interaction.member.id,
                     allow: [Permissions.FLAGS.VIEW_CHANNEL],
                 },
@@ -83,9 +87,13 @@ module.exports = {
                     allow: [Permissions.FLAGS.MANAGE_MESSAGES],
                 },
             ],}).catch(err => console.error)
-            .then(async text => {     
+            .then(async text => {
             //Create Voice Channel
             await interaction.guild.channels.create(`Voice Chat`, {type: 'GUILD_VOICE', parent: category.id, permissionOverwrites: [
+                {
+                    id: newState.member.id,
+                    allow: [Permissions.FLAGS.CREATE_INSTANT_INVITE],
+                },
                 {
                     id: interaction.member.id,
                     allow: [Permissions.FLAGS.CONNECT],

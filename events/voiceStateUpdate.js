@@ -61,6 +61,10 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
             await newState.guild.channels.create(`chit-chat`, {type: 'GUILD_TEXT', parent: category.id, permissionOverwrites: [
                 {
                     id: newState.member.id,
+                    allow: [Permissions.FLAGS.CREATE_INSTANT_INVITE],
+                },
+                {
+                    id: newState.member.id,
                     allow: [Permissions.FLAGS.VIEW_CHANNEL],
                 },
                 {
@@ -68,9 +72,13 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                     allow: [Permissions.FLAGS.MANAGE_MESSAGES],
                 },
             ],}).catch(err => console.error)
-            .then(async text => {     
+            .then(async text => {
             //Create Voice Channel
             await newState.guild.channels.create(`Voice Chat`, {type: 'GUILD_VOICE', parent: category.id, permissionOverwrites: [
+                {
+                    id: newState.member.id,
+                    allow: [Permissions.FLAGS.CREATE_INSTANT_INVITE],
+                },
                 {
                     id: newState.member.id,
                     allow: [Permissions.FLAGS.CONNECT],
@@ -111,7 +119,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
                 } else return
             })})})
         })
-    } 
+    }
 
     //Loop
     try{
