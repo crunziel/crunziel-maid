@@ -36,7 +36,7 @@ module.exports = {
         .setTitle(`This table is reserved for <@${interaction.member.id}>`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
 
-        const welcomeMessage = new MessageEmbed()
+        const inviteFriends = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
         .setTitle(`Invite your friends!`)
         .setDescription(`Pro Tip : You can actually right click your chit-chat or voice channel to invite your friends! pretty cool right?\nBut please keep in mind that you can only do this on your table.`)
@@ -122,6 +122,7 @@ module.exports = {
                 //Send Welcome Message
                 await interaction.editReply({ embeds: [tableCreated], ephemeral: true })
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [welcomeMessage] })
+                await interaction.guild.channels.cache.get(text.id).send({ embeds : [inviteFriends] })
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [musicQueuing] })
                 await interaction.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
                     async message => {
