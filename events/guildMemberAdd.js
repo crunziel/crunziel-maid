@@ -2,7 +2,7 @@ const client = require("../index");
 const { MessageAttachment, MessageEmbed } = require("discord.js");
 const Canvas = require("canvas");
 const { registerFont, createCanvas } = require('canvas')
-registerFont('./assets/Roboto-Regular.ttf', { family: 'Roboto' })
+Canvas.registerFont('./assets/Roboto-Regular.ttf', { family: 'Roboto' })
 
 client.on("guildMemberAdd", async member => {
     //If not in a guild return
