@@ -105,7 +105,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
             .then(async voice => {
                 //Send Welcome Message
                 await newState.guild.channels.cache.get(text.id).send({ embeds : [welcomeMessage] })
-                await interaction.guild.channels.cache.get(text.id).send({ embeds : [inviteFriends] })
+                await newState.guild.channels.cache.get(text.id).send({ embeds : [inviteFriends] })
                 await newState.guild.channels.cache.get(text.id).send({ embeds : [musicQueuing] })
                 await newState.guild.channels.cache.get(text.id).send({ embeds : [tableProperties] }).then(
                     async message => {
