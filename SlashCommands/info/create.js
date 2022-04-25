@@ -33,7 +33,7 @@ module.exports = {
 
         const welcomeMessage = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
-        .setTitle(`This table is reserved for <@${interaction.member.displayName}>`)
+        .setTitle(`This table is reserved for ${interaction.member.displayName}`)
         .setDescription(`Hey <@${interaction.member.id}>!, i am sorry for the mention, we hope you enjoy your visit here!`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
 

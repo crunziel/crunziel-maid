@@ -18,7 +18,7 @@ module.exports = {
         .setTimestamp()
 
         const buttons = new MessageActionRow()
-        
+
         let userVoiceChannel = interaction.member.voice.channel;
 
 
@@ -62,7 +62,7 @@ module.exports = {
                 .setCustomId('sydney')
                 .setLabel('Sydney')
                 .setStyle('SECONDARY'),
-        );       
+        );
 
         //Hongkong
         buttons.addComponents(
@@ -79,9 +79,15 @@ module.exports = {
                 .setLabel('Automatic')
                 .setStyle('SECONDARY'),
         );
-        
+
+        if(!userVoiceChannel.rtcRegion){
+          vcRegion = "Automatic"
+        } else {
+          vcRegion = userVoiceChannel.rtcRegion
+        }
+
         embed.setTitle(`Set Region`)
-        embed.setDescription(`Please choose a region\n\nCurrent region : **${userVoiceChannel.rtcRegion}**\n\nCrunziel: If you need more region, please let me know.`)
+        embed.setDescription(`Please choose a region\n\nCurrent region : **${vcRegion}**\n\nCrunziel: If you need more region, please let me know.`)
 
         //YEEEEET
         interaction.editReply({ embeds: [embed], components: [buttons] })
@@ -122,7 +128,7 @@ module.exports = {
                 return i.update({ embeds: [embed], components: [] })
             }
         });
-        
+
         collector.on('end', collected => {
             interaction.editReply({ components: [] })
             console.log(`[ Region ] Collected ${collected.size} interactions.`);

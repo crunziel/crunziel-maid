@@ -24,7 +24,7 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
 
         const welcomeMessage = new MessageEmbed()
         .setColor(`${client.config.embedColor}`)
-        .setTitle(`This table is reserved for <@${newState.member.displayName}>`)
+        .setTitle(`This table is reserved for ${newState.member.displayName}`)
         .setDescription(`Hey <@${newState.member.id}>!, i am sorry for the mention, we hope you enjoy your visit here!`)
         .setImage('https://i.crunziel.com/reserved.jpeg')
 
